@@ -14,10 +14,44 @@
   "contributes": {
     "commands": [
       {
-        "command": "dynesshely-vscext-snippet-on-git-repo.helloWorld",
-        "title": "Hello World"
+        "command": "dynesshely-vscext-snippet-on-git-repo.sync-now",
+        "title": "VscExt SnippetOnGitRepo: Sync snippets now"
+      },
+      {
+        "command": "dynesshely-vscext-snippet-on-git-repo.set-repository-url",
+        "title": "VscExt SnippetOnGitRepo: Set repository URL"
+      },
+      {
+        "command": "dynesshely-vscext-snippet-on-git-repo.show-latest-commit-hash",
+        "title": "VscExt SnippetOnGitRepo: Display local latest commit hash"
+      },
+      {
+        "command": "dynesshely-vscext-snippet-on-git-repo.doctor",
+        "title": "VscExt SnippetOnGitRepo: Doctor"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Snippet on Git Repo",
+      "properties": {
+        "dynesshely-vscext-snippet-on-git-repo.repositoryUrl": {
+          "type": "string",
+          "default": "@undefined",
+          "description": "Git repository URL for snippets"
+        },
+        "dynesshely-vscext-snippet-on-git-repo.syncInterval": {
+          "type": "number",
+          "default": 1440,
+          "description": "Sync interval in minutes (0 to disable auto sync)"
+        },
+        "dynesshely-vscext-snippet-on-git-repo.latestCommitHash": {
+          "type": "string",
+          "default": "@null",
+          "description": "Latest local commit hash (Do not modify, this value will be cleared when you set your repository url via `Set Repository URL` command)",
+          "readOnly": true,
+          "ignoreSync": true
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",

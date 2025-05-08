@@ -1,32 +1,40 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+import * as defs from "./defs";
+import { Output } from "./utils/output";
+import { build_cmd, build_provider } from "./composer";
+import { func_doctor } from "./commands/doctor";
+import { func_set_repository_url } from "./commands/set_repository_url";
+import { func_sync_now } from "./commands/sync_now";
+import { func_show_latest_commit_hash } from "./commands/show_latest_commit_hash";
+
 export function activate(context: vscode.ExtensionContext) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log(
-    'Congratulations, your extension "dynesshely-vscext-snippet-on-git-repo" is now active!'
-  );
+  const output = new Output(context);
+  output.info_logln(`[EXT_] Ext activated ! (${defs.ext_name})`);
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-  const disposable = vscode.commands.registerCommand(
-    "dynesshely-vscext-snippet-on-git-repo.helloWorld",
-    () => {
-      // The code you place here will be executed every time your command is executed
-      // Display a message box to the user
-      vscode.window.showInformationMessage(
-        "Hello World from VscExt-SnippetOnGitRepo!"
-      );
-    }
+  build_cmd(
+    context,
+    defs.commands_names.set_repository_url,
+    async () => await func_set_repository_url(context)
   );
-
-  context.subscriptions.push(disposable);
+  build_cmd(
+    context,
+    defs.commands_names.syncnow,
+    async () => await func_sync_now(context)
+  );
+  build_cmd(context, defs.commands_names.show_latest_commit_hash, () =>
+    func_show_latest_commit_hash(context)
+  );
+  build_cmd(context, defs.commands_names.doctor, () => func_doctor(context));
+  build_provider(
+    context,
+    defs.provider_names.show_general_info,
+    new (class implements vscode.TextDocumentContentProvider {
+      provideTextDocumentContent(uri: vscode.Uri): string {
+        return decodeURIComponent(atob(uri.query));
+      }
+    })()
+  );
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
