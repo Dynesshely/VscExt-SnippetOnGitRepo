@@ -18,6 +18,15 @@ export const provider_names = {
 
 export const output_channel_name = `Snippets on Git Repo`;
 
+export const terminal_name = `[Terminal] VscExt-SnippetsOnGitRepo`;
+
+export const config_names = {
+  repositoryUrl: "repositoryUrl",
+  syncInterval: "syncInterval",
+  subDirectory: "subDirectory",
+  latestCommitHash: "latestCommitHash",
+};
+
 export const _undefined = "@undefined";
 
 export const _null = "@null";
