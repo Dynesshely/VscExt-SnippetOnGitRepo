@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as os from "os";
+import * as fs from "fs";
 
 import "../utils/path";
 import * as defs from "../defs";
@@ -8,14 +9,27 @@ import { output_channel } from "../utils/output";
 import { PathResolver } from "../utils/path";
 
 export function func_doctor(context: vscode.ExtensionContext) {
-  const config = vscode.workspace.getConfiguration(
-    "dynesshely-vscext-snippet-on-git-repo"
-  );
+  const config = vscode.workspace.getConfiguration(defs.ext_name);
   const pathResolvers = [
     new PathResolver().use(defs.snippets_location_win),
     new PathResolver().use(defs.snippets_location_linux),
     new PathResolver().use(defs.snippets_location_macos),
   ];
+  const snippetsLocationResolver = pathResolvers.selectByPlatforms(
+    new Map(
+      Object.entries({
+        win32: 0,
+        linux: 1,
+        darwin: 2,
+      })
+    )
+  );
+  if (
+    snippetsLocationResolver.resolve() !== null &&
+    fs.existsSync(snippetsLocationResolver.resolve()!) === false
+  ) {
+    fs.mkdirSync(snippetsLocationResolver.resolve()!);
+  }
   const paths = [
     pathResolvers[0].resolve()?.wrap_if_not_on("~~", "win32"),
     pathResolvers[1].resolve()?.wrap_if_not_on("~~", "linux"),
@@ -51,17 +65,7 @@ export function func_doctor(context: vscode.ExtensionContext) {
     `  - \`${paths[3]}\``,
     "",
     "Snippets Directory Tree:",
-    `\`\`\`plaintext\n${pathResolvers
-      .selectByPlatforms(
-        new Map(
-          Object.entries({
-            win32: 0,
-            linux: 1,
-            darwin: 2,
-          })
-        )
-      )
-      .recurseToText()}\`\`\``,
+    `\`\`\`plaintext\n${snippetsLocationResolver.recurseToText()}\`\`\``,
     "",
   ].join("\n");
   const uri = vscode.Uri.parse(
