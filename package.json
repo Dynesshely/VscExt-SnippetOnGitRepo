@@ -40,8 +40,13 @@
         },
         "dynesshely-vscext-snippet-on-git-repo.syncInterval": {
           "type": "number",
-          "default": 1440,
+          "default": 0,
           "description": "Sync interval in minutes (0 to disable auto sync)"
+        },
+        "dynesshely-vscext-snippet-on-git-repo.subDirectory": {
+          "type": "string",
+          "default": "/",
+          "description": "The sub-directory in the git repo you actually use"
         },
         "dynesshely-vscext-snippet-on-git-repo.latestCommitHash": {
           "type": "string",
