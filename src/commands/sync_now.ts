@@ -11,6 +11,7 @@ import { PathResolver } from "../utils/path";
 import { output_channel } from "../utils/output";
 import { text } from "stream/consumers";
 import { randomUUID } from "crypto";
+import path from "path";
 
 export async function func_sync_now(context: vscode.ExtensionContext) {
   const config = vscode.workspace.getConfiguration(defs.ext_name);
@@ -41,6 +42,8 @@ export async function func_sync_now(context: vscode.ExtensionContext) {
       })
     )
   );
+  const src_dir = path.join(context.extensionPath, "resources");
+  const scripts = path.join(src_dir, "scripts");
   const tmp_dir = `${os.tmpdir()}/${randomUUID()}`;
 
   output_channel().info_logln("[EXEC] Begin to sync your snippets ...");
@@ -83,14 +86,27 @@ export async function func_sync_now(context: vscode.ExtensionContext) {
       platform_mapper.set("win32", 1);
       platform_mapper.set("linux", 0);
       platform_mapper.set("darwin", 0);
+      const preInstallScriptPath = config.get<string>(
+        cn.preInstallScriptPath,
+        defs._null
+      );
       const commands = [
         // Create temp directory & Change location
         'echo ">>> Initializing ..."',
         `mkdir ${tmp_dir}`,
         `cd ${tmp_dir}`,
-        // Clone repository
+        // Clone repository & Pre-Installation script
         'echo ">>> Fetching snippets ..."',
         `git clone ${git_repo_url} snippets --depth 1`,
+        preInstallScriptPath === defs._null
+          ? 'echo ">>> No pre-installation script to execute."'
+          : `pwsh -c ./snippets/${preInstallScriptPath}`,
+        // Expand and select only .code-snippets file
+        'echo ">>> Expanding and selecting .code-snippets files ..."',
+        "cd snippets",
+        `cp "${path.join(scripts, "expand-and-select.ps1")}" ./`,
+        "pwsh -c ./expand-and-select.ps1",
+        "cd ..",
         // Remove `.git` folder
         [
           `rm -rf snippets/.git`,

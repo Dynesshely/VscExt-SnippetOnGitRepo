@@ -23,8 +23,9 @@ export const terminal_name = `[Terminal] VscExt-SnippetsOnGitRepo`;
 export const config_names = {
   repositoryUrl: "repositoryUrl",
   syncInterval: "syncInterval",
-  subDirectory: "subDirectory",
   latestCommitHash: "latestCommitHash",
+  preInstallScriptPath: "preInstallScriptPath",
+  subDirectory: "subDirectory",
 };
 
 export const _undefined = "@undefined";
