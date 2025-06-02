@@ -2,15 +2,19 @@
   "name": "snippets-over-git",
   "displayName": "Snippets over Git",
   "description": "Manage your custom code snippets based on git repo",
-  "version": "0.0.1",
+  "icon": "resources/images/icon-trans.png",
   "publisher": "Dynesshely",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.99.0"
   },
   "categories": [
     "Other"
   ],
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dynesshely/VscExt-SnippetsOverGit"
+  },
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
