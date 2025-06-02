@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import * as defs from "../defs";
 
 export async function func_set_repository_url(
   context: vscode.ExtensionContext
@@ -8,17 +9,19 @@ export async function func_set_repository_url(
   });
 
   if (new_url && new_url) {
-    const config = vscode.workspace.getConfiguration(
-      "dynesshely-vscext-snippet-on-git-repo"
+    const config = vscode.workspace.getConfiguration(defs.ext_name);
+    config.update(
+      defs.config_names.repositoryUrl,
+      new_url,
+      vscode.ConfigurationTarget.Global
     );
-    config.update("repositoryUrl", new_url, vscode.ConfigurationTarget.Global);
     vscode.window.showInformationMessage(
-      `Vsc-Ext SnippetOnGitRepo:\nYour repository URL has been updated to -> ${new_url}`
+      `Snippets over Git:\nYour repository URL has been updated to -> ${new_url}`
     );
     return true;
   }
   vscode.window.showInformationMessage(
-    `Vsc-Ext SnippetOnGitRepo:\nFailed to update your repository URL configuration`
+    `Snippets over Git:\nFailed to update your repository URL configuration`
   );
   return false;
 }

@@ -1,7 +1,7 @@
 {
-  "name": "dynesshely-vscext-snippet-on-git-repo",
-  "displayName": "VscExt-SnippetOnGitRepo",
-  "description": "Manage your code snippet based on git repo",
+  "name": "snippets-over-git",
+  "displayName": "Snippets over Git",
+  "description": "Manage your custom code snippets based on git repo",
   "version": "0.0.1",
   "publisher": "Dynesshely",
   "engines": {
@@ -16,48 +16,48 @@
   "contributes": {
     "commands": [
       {
-        "command": "dynesshely-vscext-snippet-on-git-repo.sync-now",
-        "title": "VscExt SnippetOnGitRepo: Sync snippets now"
+        "command": "snippets-over-git.sync-now",
+        "title": "Snippets over Git: Sync snippets now"
       },
       {
-        "command": "dynesshely-vscext-snippet-on-git-repo.set-repository-url",
-        "title": "VscExt SnippetOnGitRepo: Set repository URL"
+        "command": "snippets-over-git.set-repository-url",
+        "title": "Snippets over Git: Set repository URL"
       },
       {
-        "command": "dynesshely-vscext-snippet-on-git-repo.show-latest-commit-hash",
-        "title": "VscExt SnippetOnGitRepo: Display local latest commit hash"
+        "command": "snippets-over-git.show-latest-commit-hash",
+        "title": "Snippets over Git: Display local latest commit hash"
       },
       {
-        "command": "dynesshely-vscext-snippet-on-git-repo.doctor",
-        "title": "VscExt SnippetOnGitRepo: Doctor"
+        "command": "snippets-over-git.doctor",
+        "title": "Snippets over Git: Doctor"
       }
     ],
     "configuration": {
-      "title": "Snippet on Git Repo",
+      "title": "Snippets over Git",
       "properties": {
-        "dynesshely-vscext-snippet-on-git-repo.repositoryUrl": {
+        "snippets-over-git.repositoryUrl": {
           "type": "string",
           "default": "@undefined",
           "description": "Git repository URL for snippets"
         },
-        "dynesshely-vscext-snippet-on-git-repo.syncInterval": {
+        "snippets-over-git.syncInterval": {
           "type": "number",
           "default": 0,
           "description": "Sync interval in minutes (0 to disable auto sync)"
         },
-        "dynesshely-vscext-snippet-on-git-repo.latestCommitHash": {
+        "snippets-over-git.latestCommitHash": {
           "type": "string",
           "default": "@null",
           "description": "Latest local commit hash (Do not modify, this value will be cleared when you set your repository url via `Set Repository URL` command)",
           "readOnly": true,
           "ignoreSync": true
         },
-        "dynesshely-vscext-snippet-on-git-repo.preInstallScriptPath": {
+        "snippets-over-git.preInstallScriptPath": {
           "type": "string",
           "default": "@null",
           "description": "The pwsh script path inside the git repo to be executed before moving during installation\nExample:\n1. expand.ps1\n2. sub-dir/script.ps1\n3. Do not write like '/path/to/script.ps1'"
         },
-        "dynesshely-vscext-snippet-on-git-repo.subDirectory": {
+        "snippets-over-git.subDirectory": {
           "type": "string",
           "default": "/",
           "description": "The sub-directory in the git repo you actually use"
